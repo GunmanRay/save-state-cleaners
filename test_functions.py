@@ -39,7 +39,6 @@ class TestObtainFunctions:
         temp_file.write_text("Dummy data")
         for i in range (0, 4):
             file_ext = f"state.ss{i+1}"
-            print(f"Writing in {file_ext}")
             temp_save_state = temp_dir / file_ext
             temp_save_state.write_text("Dummy data")
 
@@ -48,9 +47,26 @@ class TestObtainFunctions:
         collected_states = ob.get_save_states(temp_dir)
         assert len(collected_states) == 4
 
+    def test_different_states(self, tmp_path): 
+        temp_dir = tmp_path / "fake_dir"
+        temp_dir.mkdir()
 
-# class TestValidationMethods(unittest.TestCase):
-#     def test_help
+        temp_file = temp_dir / "fake_file.txt"
+        temp_file.write_text("Dummy data")
+        for i in range (0, 4):
+            file_ext = f"state.ss{i+1}"
+            temp_save_state = temp_dir / file_ext
+            temp_save_state.write_text("Dummy data")
+
+            file_ext = f"state.ds{i+1}"
+            temp_save_state = temp_dir / file_ext
+            temp_save_state.write_text("Dummy data")
+
+        assert len(os.listdir(temp_dir)) == 9
+        collected_states = ob.get_save_states(temp_dir)
+        assert len(collected_states) == 8
+            
+
 
 if __name__ == '__main__':
     pytest.main()
