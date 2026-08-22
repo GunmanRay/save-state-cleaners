@@ -4,6 +4,21 @@ import os
 from save_files import Emulators
 from validation_functions import RECOGNIZED_SS_EXTENSIONS
 
+@pytest.fixture
+def temp_save_dir(tmp_path):
+    """A setup for a fake directory, alongside a fake text file that should be
+    ignored by the functions being tested"""
+    temp_dir = tmp_path / "fake_dir"
+    temp_dir.mkdir()
+
+    # A temporary text file that should be ignored by the retrieval functions
+    temp_file = temp_dir / "fake_file.txt"
+    temp_file.touch()
+
+    yield temp_dir
+
+
+
 class TestSupportedExtensions:
     def test_gba_values_are_same(self):
         assert Emulators.MGBA == Emulators.VBA
@@ -19,51 +34,34 @@ class TestSupportedExtensions:
 
 
 class TestObtainFunctions:
-    def test_no_states(self, tmp_path):
-        temp_dir = tmp_path / "fake_dir"
-        temp_dir.mkdir()
+    def test_no_states(self, temp_save_dir):
+        assert len(os.listdir(temp_save_dir)) == 1
 
-        assert ob.get_save_states(temp_dir) == []
+        assert ob.get_save_states(temp_save_dir) == []
 
-        temp_file = temp_dir / "fake_file.txt"
-        temp_file.write_text("Dummy data")
-        assert len(os.listdir(temp_dir)) == 1
-
-        assert ob.get_save_states(temp_dir) == []
-
-    def test_states(self, tmp_path):
-        temp_dir = tmp_path / "fake_dir"
-        temp_dir.mkdir()
-
-        temp_file = temp_dir / "fake_file.txt"
-        temp_file.write_text("Dummy data")
+    def test_states(self, temp_save_dir):
         for i in range (0, 4):
             file_ext = f"state.ss{i+1}"
-            temp_save_state = temp_dir / file_ext
-            temp_save_state.write_text("Dummy data")
+            temp_save_state = temp_save_dir / file_ext
+            temp_save_state.touch()
 
-        assert len(os.listdir(temp_dir)) == 5
+        assert len(os.listdir(temp_save_dir)) == 5
 
-        collected_states = ob.get_save_states(temp_dir)
+        collected_states = ob.get_save_states(temp_save_dir)
         assert len(collected_states) == 4
 
-    def test_different_states(self, tmp_path): 
-        temp_dir = tmp_path / "fake_dir"
-        temp_dir.mkdir()
-
-        temp_file = temp_dir / "fake_file.txt"
-        temp_file.write_text("Dummy data")
+    def test_different_states(self, temp_save_dir): 
         for i in range (0, 4):
             file_ext = f"state.ss{i+1}"
-            temp_save_state = temp_dir / file_ext
-            temp_save_state.write_text("Dummy data")
+            temp_save_state = temp_save_dir / file_ext
+            temp_save_state.touch()
 
             file_ext = f"state.ds{i+1}"
-            temp_save_state = temp_dir / file_ext
-            temp_save_state.write_text("Dummy data")
+            temp_save_state = temp_save_dir / file_ext
+            temp_save_state.touch()
 
-        assert len(os.listdir(temp_dir)) == 9
-        collected_states = ob.get_save_states(temp_dir)
+        assert len(os.listdir(temp_save_dir)) == 9
+        collected_states = ob.get_save_states(temp_save_dir)
         assert len(collected_states) == 8
             
 
