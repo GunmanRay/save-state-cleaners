@@ -5,7 +5,7 @@ import sys
 import glob
 from save_files import Emulators
 
-RECOGNIZED_SS_EXTENSIONS = [".ss[0-9]", ".ds[0-9]"]
+RECOGNIZED_SS_EXTENSIONS = ["*.ss[0-9]", "*.ds[0-9]"]
 SET_SS = set(RECOGNIZED_SS_EXTENSIONS)
 
 def h(cwd=None):

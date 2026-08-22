@@ -14,15 +14,17 @@ def get_save_states(cwd=None):
 
     hf.path_validation(cwd)
     os.chdir(cwd)
-    extensions = []
+    save_states = []
 
     # O(n^2), should be faster...
     for extension in RECOGNIZED_SS_EXTENSIONS:
         matches = glob.glob(extension)
-        extensions += matches
+        save_states += matches
 
-    if extensions: print(extensions)
+    if save_states: print(save_states)
     else: print("There are no save states in the given directory.")
+
+    return save_states
 
 def get_specific_save_states(emulator, cwd=None):
     """Returns a list of all the save states that are specific to the given
@@ -44,6 +46,8 @@ def get_specific_save_states(emulator, cwd=None):
 
     if save_states: print(save_states)
     else: print("There are no save states in the given directory.")
+
+    return save_states
 
 def get_subdirectories(cwd=None):
     cwd = hf.cwd_none_check(cwd)
