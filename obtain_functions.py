@@ -10,7 +10,7 @@ def get_save_states(cwd=None):
     """Returns a list of all the save states found in the cwd.
     This function assumes the cwd is valid."""
 
-    cwd = hf.cwd_none_check()
+    cwd = hf.cwd_none_check(cwd)
 
     hf.path_validation(cwd)
     os.chdir(cwd)

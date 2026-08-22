@@ -2,9 +2,6 @@ import os
 import sys
 import glob
 
-# from save_files import Emulators
-# from validation_functions import RECOGNIZED_SS_EXTENSIONS, MGBA, MELONDS
-
 SS_CLEANER_PATH = os.path.dirname(os.path.abspath(__file__))
 INFO_FOLDER = os.path.join(SS_CLEANER_PATH, "info_folder")
 FOLDERS = os.path.join(INFO_FOLDER, "folders.txt")
