@@ -29,7 +29,8 @@ def get_save_states(cwd=None):
 def get_specific_save_states(emulator, cwd=None):
     """Returns a list of all the save states that are specific to the given
     emulator parameter. This function assumes the cwd is valid."""
-    if not isinstance(emulator, Emulators) or type(emulator) != int:
+
+    if not isinstance(emulator, Emulators):
         raise TypeError("Non-indexable parameter passed.")
 
     while cwd is None: 

@@ -63,7 +63,23 @@ class TestObtainFunctions:
         assert len(os.listdir(temp_save_dir)) == 9
         collected_states = ob.get_save_states(temp_save_dir)
         assert len(collected_states) == 8
-            
+
+    def test_console_specific_save_states(self, temp_save_dir):
+        for i in range (0, 4):
+            file_ext = f"state.ss{i+1}"
+            temp_save_state = temp_save_dir / file_ext
+            temp_save_state.touch()
+
+            file_ext = f"state.ds{i+1}"
+            temp_save_state = temp_save_dir / file_ext
+            temp_save_state.touch()
+
+        ds_states = ob.get_specific_save_states(emulator=Emulators.DESMUME, cwd=temp_save_dir)
+        gba_states = ob.get_specific_save_states(emulator=Emulators.MGBA, cwd=temp_save_dir)
+
+        assert os.path.splitext(ds_states[1])[1] == ".ds2"
+        assert os.path.splitext(gba_states[1])[1] == ".ss2"
+
 
 
 if __name__ == '__main__':
