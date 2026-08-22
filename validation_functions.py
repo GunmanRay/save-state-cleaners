@@ -4,7 +4,7 @@ import os
 import sys
 import glob
 
-RECOGNIZED_SS_EXTENSIONS = [".ss[0-9]", ".ds[0-9]"]
+RECOGNIZED_SS_EXTENSIONS = ["*.ss[0-9]", "*.ds[0-9]"]
 SET_SS = set(RECOGNIZED_SS_EXTENSIONS)
 
 MGBA = f"*{RECOGNIZED_SS_EXTENSIONS[0]}"
