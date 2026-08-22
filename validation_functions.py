@@ -2,18 +2,21 @@
 
 import os 
 import sys
+import glob
 
-RECOGNIZED_SS_FILES = set([f".ss{i}" for i in range(1, 10)])
+RECOGNIZED_SS_EXTENSIONS = [".ss[0-9]", ".ds[0-9]"]
+SET_SS = set(RECOGNIZED_SS_EXTENSIONS)
 
-def has_save_states(cwd=None):
+MGBA = f"*{RECOGNIZED_SS_EXTENSIONS[0]}"
+MELONDS = DESMUME = f"*{RECOGNIZED_SS_EXTENSIONS[1]}"
+
+def has_mgba(cwd=None):
     """Checks for the EXISTENCE of particular save states in cwd in the
     given parameter."""
     if os.path.exists(cwd):
-        file_list = os.listdir(cwd)
-        for file in file_list:
-            filename, file_ext = os.path.splitext(file)
-            if file_ext in RECOGNIZED_SS_FILES:
-                return True
-        return False
+        glob_link = os.path.join(cwd, MGBA) 
+
+        if glob.glob(glob_link): return True
+        else: return False
     else:
         raise FileNotFoundError("The Given cwd does not exist.")

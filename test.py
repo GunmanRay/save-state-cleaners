@@ -2,7 +2,7 @@ import unittest
 import os
 import sys
 import validation_functions
-from validation_functions import RECOGNIZED_SS_FILES
+from validation_functions import RECOGNIZED_SS_EXTENSIONS
 
 class TestSupportedExtensions(unittest.TestCase):
     def setUp(self):
@@ -10,7 +10,7 @@ class TestSupportedExtensions(unittest.TestCase):
         self.desmume = [f".ds{i}" for i in range(0, 10)]
 
     def test_num_of_extensions(self):
-        self.assertEqual(len(RECOGNIZED_SS_FILES), 9)
+        self.assertEqual(len(RECOGNIZED_SS_EXTENSIONS), 9)
 
     # def test_mgba_extensions(self):
 
