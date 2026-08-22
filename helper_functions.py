@@ -34,8 +34,26 @@ def get_save_states(cwd=None):
     if extensions: print(extensions)
     else: print("There are no save states in the given directory.")
 
-def get_specific_save_states(emulator)
-        
+def get_specific_save_states(emulator, cwd=None):
+    """Returns a list of all the save states that are specific to the given
+    emulator parameter. This function assumes the cwd is valid."""
+    if type(emulator) != Emulators or type(emulator) != int:
+        raise TypeError("Non-indexable parameter passed.")
+
+    while cwd is None: 
+        try:
+            cwd = input_cwd()
+        except FileNotFoundError:
+            cwd = None
+
+    path_validation(cwd)
+    os.chdir(cwd)
+    extension = RECOGNIZED_SS_EXTENSIONS[emulator.value]
+
+    save_states = glob.glob(extension)
+
+    if save_states: print(save_states)
+    else: print("There are no save states in the given directory.")
 
 def get_subdirectories(cwd=None):
     if cwd is None: cwd = input_cwd()
