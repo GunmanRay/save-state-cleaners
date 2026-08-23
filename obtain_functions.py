@@ -27,7 +27,7 @@ def get_save_states(cwd=None):
         
 
 def get_save_states_recursive(cwd=None):
-    cwd = hf.cwd_none_check()
+    cwd = hf.cwd_none_check(cwd)
     hf.path_validation(cwd)
 
     save_states = []
@@ -43,8 +43,6 @@ def get_save_states_recursive(cwd=None):
     else: print("There are no save states in the given directory.")
     return save_states
 
-
-    return save_states
 
 def get_specific_save_states(emulator, cwd=None):
     """Returns a list of all the save states that are specific to the given
