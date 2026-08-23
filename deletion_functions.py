@@ -2,3 +2,5 @@
 import os
 import sys
 from validation_functions import RECOGNIZED_SS_EXTENSIONS
+
+FILE_PATH = os.path.realpath(__file__)
