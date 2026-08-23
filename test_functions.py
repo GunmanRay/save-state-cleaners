@@ -103,7 +103,7 @@ class TestObtainFunctions:
         l3 = l2_1 / LEVEL3
         non_save_state = l3 / "temp.txt"
 
-        assert len(ob.get_save_states_recursive(temp_save_dir)) == 4
+        assert len(ob.get_save_states(temp_save_dir, use_recursion=True)) == 4
 
     def test_recursive_search_only_level_2(self, temp_save_dir):    
             l2_1 = temp_save_dir / LEVEL2_1
@@ -113,7 +113,7 @@ class TestObtainFunctions:
             save_state_l2_2 = l2_2 / "state.ss5"
             save_state_l2_2.touch()
 
-            assert len(ob.get_save_states_recursive(temp_save_dir)) == 2
+            assert len(ob.get_save_states(temp_save_dir, use_recursion=True)) == 2
 
     def test_recursive_search_muultiple_levels(self, temp_save_dir):
         for i in range (0, 4):
@@ -128,7 +128,7 @@ class TestObtainFunctions:
             temp_save_state = l3 / file_ext
             temp_save_state.touch()
 
-        assert len(ob.get_save_states_recursive(temp_save_dir)) == 9
+        assert len(ob.get_save_states(temp_save_dir, use_recursion=True)) == 9
         
 
 
