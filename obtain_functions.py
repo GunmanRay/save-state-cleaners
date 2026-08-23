@@ -10,7 +10,7 @@ def get_save_states(cwd=None, use_recursion=False):
     """Returns a list of all the save states found in the cwd.
     This function assumes the cwd is valid."""
 
-    cwd = hf.cwd_none_check()
+    cwd = hf.cwd_none_check(cwd)
 
     hf.path_validation(cwd)
     os.chdir(cwd)
@@ -30,7 +30,7 @@ def get_save_states(cwd=None, use_recursion=False):
 def get_specific_save_states(emulator, cwd=None, use_recursion=False):
     """Returns a list of all the save states that are specific to the given
     emulator parameter. This function assumes the cwd is valid."""
-    if type(emulator) != Emulators or type(emulator) != int:
+    if not isinstance(emulator, Emulators) or type(emulator) != int:
         raise TypeError("Non-indexable parameter passed.")
 
     while cwd is None: 
