@@ -1,5 +1,6 @@
 import pytest 
 import obtain_functions as ob
+import deletion_functions as delete
 import os
 from save_files import Emulators
 from validation_functions import RECOGNIZED_SS_EXTENSIONS
@@ -130,6 +131,72 @@ class TestObtainFunctions:
 
         assert len(ob.get_save_states(temp_save_dir, use_recursion=True)) == 9
         
+class TestDeletionFunctions: 
+    def test_deletion_general(self, temp_save_dir):
+        for i in range (0, 4):
+            file_ext = f"state.ss{i+1}"
+            temp_save_state = temp_save_dir / file_ext
+            temp_save_state.touch()
+
+        assert len(os.listdir(temp_save_dir)) == 7
+        assert len(ob.get_save_states(temp_save_dir)) == 4
+
+        delete.delete_from_cwd(temp_save_dir)
+        assert len(os.listdir(temp_save_dir)) == 3
+        assert len(ob.get_save_states(temp_save_dir)) == 0
+
+    def test_deletion_level_1(self, temp_save_dir):
+        for i in range (0, 4):
+            file_ext = f"state.ss{i+1}"
+            temp_save_state = temp_save_dir / file_ext
+            temp_save_state.touch()
+
+        l2_1 = temp_save_dir / LEVEL2_1
+        l2_save_state = l2_1 / "state.ss8"
+        l2_save_state.touch()
+
+        assert len(ob.get_save_states(temp_save_dir, use_recursion=True)) == 5
+        delete.delete_from_cwd(temp_save_dir, delete_from_subdirs=False)
+        assert  len(ob.get_save_states(temp_save_dir, use_recursion=True)) == 1
+
+    def test_deletion_level_2(self, temp_save_dir):
+        l2_1 = temp_save_dir / LEVEL2_1
+        l2_2 = temp_save_dir / LEVEL2_2
+
+        for i in range(0, 6): 
+            state2_1 = l2_1 / f"state.ss{i}"
+            state2_1.touch()
+
+            state2_2 = l2_2 / f"state.ss{i}"
+            state2_2.touch()
+
+        assert len(ob.get_save_states(temp_save_dir, use_recursion=True)) == 12
+        delete.delete_from_cwd(temp_save_dir, delete_from_subdirs=True)
+        assert len(ob.get_save_states(temp_save_dir, use_recursion=True)) == 0
+
+    def test_deletion_all_levels(self, temp_save_dir):
+        for i in range(0, 2):
+            state1 = temp_save_dir / f"state.ds{i}"
+            state1.touch()
+
+        l2_1 = temp_save_dir / LEVEL2_1
+        l2_2 = temp_save_dir / LEVEL2_2
+        l3 = l2_1 / LEVEL3
+
+        for i in range(0, 6): 
+            state2_1 = l2_1 / f"state.ss{i}"
+            state2_1.touch()
+
+            state2_2 = l2_2 / f"state.ss{i}"
+            state2_2.touch()
+
+        state3 = l3 / "state.ds8"
+        state3.touch()
+
+        assert len(ob.get_save_states(temp_save_dir, use_recursion=True)) == 15
+        delete.delete_from_cwd(temp_save_dir, delete_from_subdirs=True)
+        assert len(ob.get_save_states(temp_save_dir, use_recursion=True)) == 0
+
 
 
 
