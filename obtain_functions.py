@@ -6,7 +6,7 @@ from save_files import Emulators
 # from helper_functions import input_cwd, path_validation
 from validation_functions import RECOGNIZED_SS_EXTENSIONS
 
-def get_save_states(cwd=None):
+def get_save_states(cwd=None, use_recursion=False):
     """Returns a list of all the save states found in the cwd.
     This function assumes the cwd is valid."""
 
@@ -18,35 +18,16 @@ def get_save_states(cwd=None):
 
     # O(n^2), should be faster...
     for extension in RECOGNIZED_SS_EXTENSIONS:
-        matches = glob.glob(extension)
+        if use_recursion:
+            extension = os.path.join("**", extension)
+        matches = glob.glob(extension, recursive=use_recursion)
         save_states += matches
 
     if save_states: print(save_states)
     else: print("There are no save states in the given directory.")
     return save_states
         
-
-def get_save_states_recursive(cwd=None):
-    cwd = hf.cwd_none_check()
-    hf.path_validation(cwd)
-
-    save_states = []
-
-    recursive_path = os.path.join(cwd, "**")
-
-    for extension in RECOGNIZED_SS_EXTENSIONS:
-        recursive_state = os.path.join(recursive_path, extension)
-        matches = glob.glob(recursive_state, recursive=True)
-        save_states += matches
-
-    if save_states: print(save_states)
-    else: print("There are no save states in the given directory.")
-    return save_states
-
-
-    return save_states
-
-def get_specific_save_states(emulator, cwd=None):
+def get_specific_save_states(emulator, cwd=None, use_recursion=False):
     """Returns a list of all the save states that are specific to the given
     emulator parameter. This function assumes the cwd is valid."""
     if not isinstance(emulator, Emulators) or type(emulator) != int:
@@ -61,6 +42,9 @@ def get_specific_save_states(emulator, cwd=None):
     hf.path_validation(cwd)
     os.chdir(cwd)
     extension = RECOGNIZED_SS_EXTENSIONS[emulator.value]
+
+    if use_recursion:
+        extension = os.path.join("**", extension)
 
     save_states = glob.glob(extension)
 
@@ -81,6 +65,8 @@ def get_subdirectories(cwd=None):
     print(subdirs)
     return file_list
 
+# TO BE DELETED UNDERNEATH:
+
 def get_save_states_in_subdirs(cwd=None):
     subdirs = get_subdirectories(cwd)
     if not subdirs:
@@ -88,3 +74,20 @@ def get_save_states_in_subdirs(cwd=None):
         get_save_states(cwd)
     else:
         pass
+
+def get_save_states_recursive(cwd=None):
+    cwd = hf.cwd_none_check()
+    hf.path_validation(cwd)
+
+    save_states = []
+
+    recursive_path = os.path.join(cwd, "**")
+
+    for extension in RECOGNIZED_SS_EXTENSIONS:
+        recursive_state = os.path.join(recursive_path, extension)
+        matches = glob.glob(recursive_state, recursive=True)
+        save_states += matches
+
+    if save_states: print(save_states)
+    else: print("There are no save states in the given directory.")
+    return save_states
