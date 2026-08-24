@@ -1,9 +1,14 @@
 import pytest 
 import obtain_functions as ob
 import deletion_functions as delete
+import deletion_functions as delete
 import os
 from save_files import Emulators
 from validation_functions import RECOGNIZED_SS_EXTENSIONS
+
+LEVEL2_1 = "fake_dir_level2_1"
+LEVEL2_2 = "fake_dir_level2_2"
+LEVEL3 = "fake_dir_level3"
 
 LEVEL2_1 = "fake_dir_level2_1"
 LEVEL2_2 = "fake_dir_level2_2"
@@ -15,6 +20,15 @@ def temp_save_dir(tmp_path):
     ignored by the functions being tested"""
     temp_dir = tmp_path / "fake_dir"
     temp_dir.mkdir()
+
+    temp_dir_level_2_1 = temp_dir / LEVEL2_1
+    temp_dir_level_2_1.mkdir()
+
+    temp_dir_level_2_2 = temp_dir / LEVEL2_2
+    temp_dir_level_2_2.mkdir()
+
+    temp_dir_level_3 = temp_dir_level_2_1 / LEVEL3
+    temp_dir_level_3.mkdir()
 
     temp_dir_level_2_1 = temp_dir / LEVEL2_1
     temp_dir_level_2_1.mkdir()
@@ -50,6 +64,7 @@ class TestSupportedExtensions:
 class TestObtainFunctions:
     def test_no_states(self, temp_save_dir):
         assert len(os.listdir(temp_save_dir)) == 3
+        assert len(os.listdir(temp_save_dir)) == 3
 
         assert ob.get_save_states(temp_save_dir) == []
 
@@ -59,6 +74,7 @@ class TestObtainFunctions:
             temp_save_state = temp_save_dir / file_ext
             temp_save_state.touch()
 
+        assert len(os.listdir(temp_save_dir)) == 7
         assert len(os.listdir(temp_save_dir)) == 7
 
         collected_states = ob.get_save_states(temp_save_dir)
@@ -74,6 +90,7 @@ class TestObtainFunctions:
             temp_save_state = temp_save_dir / file_ext
             temp_save_state.touch()
 
+        assert len(os.listdir(temp_save_dir)) == 11
         assert len(os.listdir(temp_save_dir)) == 11
         collected_states = ob.get_save_states(temp_save_dir)
         assert len(collected_states) == 8
