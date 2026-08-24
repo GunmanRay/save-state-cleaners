@@ -6,7 +6,7 @@ from save_files import Emulators
 # from helper_functions import input_cwd, path_validation
 from validation_functions import RECOGNIZED_SS_EXTENSIONS
 
-def get_save_states(cwd=None, use_recursion=False):
+def get_save_states(cwd=None, scan_subdirs=False):
     """Returns a list of all the save states found in the cwd.
     This function assumes the cwd is valid."""
 
@@ -18,9 +18,9 @@ def get_save_states(cwd=None, use_recursion=False):
 
     # O(n^2), should be faster...
     for extension in RECOGNIZED_SS_EXTENSIONS:
-        if use_recursion:
+        if scan_subdirs:
             extension = os.path.join("**", extension)
-        matches = glob.glob(extension, recursive=use_recursion)
+        matches = glob.glob(extension, recursive=scan_subdirs)
         save_states += matches
 
     if save_states: print(save_states)
