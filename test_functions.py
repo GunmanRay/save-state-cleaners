@@ -104,7 +104,7 @@ class TestObtainFunctions:
         l3 = l2_1 / LEVEL3
         non_save_state = l3 / "temp.txt"
 
-        assert len(ob.get_save_states(temp_save_dir, use_recursion=True)) == 4
+        assert len(ob.get_save_states(temp_save_dir, scan_subdirs=True)) == 4
 
     def test_recursive_search_only_level_2(self, temp_save_dir):    
             l2_1 = temp_save_dir / LEVEL2_1
@@ -114,7 +114,7 @@ class TestObtainFunctions:
             save_state_l2_2 = l2_2 / "state.ss5"
             save_state_l2_2.touch()
 
-            assert len(ob.get_save_states(temp_save_dir, use_recursion=True)) == 2
+            assert len(ob.get_save_states(temp_save_dir, scan_subdirs=True)) == 2
 
     def test_recursive_search_muultiple_levels(self, temp_save_dir):
         for i in range (0, 4):
@@ -129,7 +129,7 @@ class TestObtainFunctions:
             temp_save_state = l3 / file_ext
             temp_save_state.touch()
 
-        assert len(ob.get_save_states(temp_save_dir, use_recursion=True)) == 9
+        assert len(ob.get_save_states(temp_save_dir, scan_subdirs=True)) == 9
         
 class TestDeletionFunctions: 
     def test_deletion_general(self, temp_save_dir):
@@ -155,9 +155,9 @@ class TestDeletionFunctions:
         l2_save_state = l2_1 / "state.ss8"
         l2_save_state.touch()
 
-        assert len(ob.get_save_states(temp_save_dir, use_recursion=True)) == 5
+        assert len(ob.get_save_states(temp_save_dir, scan_subdirs=True)) == 5
         delete.delete_from_cwd(temp_save_dir, delete_from_subdirs=False)
-        assert  len(ob.get_save_states(temp_save_dir, use_recursion=True)) == 1
+        assert  len(ob.get_save_states(temp_save_dir, scan_subdirs=True)) == 1
 
     def test_deletion_level_2(self, temp_save_dir):
         l2_1 = temp_save_dir / LEVEL2_1
@@ -170,9 +170,9 @@ class TestDeletionFunctions:
             state2_2 = l2_2 / f"state.ss{i}"
             state2_2.touch()
 
-        assert len(ob.get_save_states(temp_save_dir, use_recursion=True)) == 12
+        assert len(ob.get_save_states(temp_save_dir, scan_subdirs=True)) == 12
         delete.delete_from_cwd(temp_save_dir, delete_from_subdirs=True)
-        assert len(ob.get_save_states(temp_save_dir, use_recursion=True)) == 0
+        assert len(ob.get_save_states(temp_save_dir, scan_subdirs=True)) == 0
 
     def test_deletion_all_levels(self, temp_save_dir):
         for i in range(0, 2):
@@ -193,9 +193,9 @@ class TestDeletionFunctions:
         state3 = l3 / "state.ds8"
         state3.touch()
 
-        assert len(ob.get_save_states(temp_save_dir, use_recursion=True)) == 15
+        assert len(ob.get_save_states(temp_save_dir, scan_subdirs=True)) == 15
         delete.delete_from_cwd(temp_save_dir, delete_from_subdirs=True)
-        assert len(ob.get_save_states(temp_save_dir, use_recursion=True)) == 0
+        assert len(ob.get_save_states(temp_save_dir, scan_subdirs=True)) == 0
 
 
 
