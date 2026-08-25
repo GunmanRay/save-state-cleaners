@@ -29,16 +29,7 @@ def temp_save_dir(tmp_path):
 
     temp_dir_level_3 = temp_dir_level_2_1 / LEVEL3
     temp_dir_level_3.mkdir()
-
-    temp_dir_level_2_1 = temp_dir / LEVEL2_1
-    temp_dir_level_2_1.mkdir()
-
-    temp_dir_level_2_2 = temp_dir / LEVEL2_2
-    temp_dir_level_2_2.mkdir()
-
-    temp_dir_level_3 = temp_dir_level_2_1 / LEVEL3
-    temp_dir_level_3.mkdir()
-
+    
     # A temporary text file that should be ignored by the retrieval functions
     temp_file = temp_dir / "fake_file.txt"
     temp_file.touch()
