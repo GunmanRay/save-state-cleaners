@@ -12,9 +12,10 @@ def zip_save_states(cwd, target_directory, scan_subdirs=False):
     target_directory = hf.cwd_none_check(target_directory)
     hf.path_validation(cwd)
 
-    save_states = ob.get_save_states(cwd)
+    save_states = ob.get_save_states(cwd, scan_subdirs=scan_subdirs)
+    zip_path = os.path.join(target_directory, "save_state_zips.zip")
 
-    with zipfile.ZipFile("save_state_zips.zip", "w") as ss_zip:
+    with zipfile.ZipFile(zip_path, "w") as ss_zip:
         for save_state in save_states:
             full_path = os.path.join(cwd, save_state)
             ss_zip.write(full_path)
