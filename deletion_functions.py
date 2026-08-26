@@ -5,20 +5,21 @@ import obtain_functions as ob
 import helper_functions as hf
 from validation_functions import RECOGNIZED_SS_EXTENSIONS
 from helper_functions import STATES, FOLDERS
+from pathlib import Path 
 
-FILE_PATH = os.path.realpath(__file__)
+FILE_PATH = Path(__file__).resolve().parent
 
 def delete_from_cwd(cwd=None, delete_from_subdirs=False):
-    cwd = hf.cwd_none_check(cwd)
+    cwd = Path(hf.cwd_none_check(cwd))
     hf.path_validation(cwd)
     to_delete = ob.get_save_states(cwd=cwd, scan_subdirs=delete_from_subdirs)
 
     for save_state in to_delete:
-        save_state_path = os.path.join(cwd, save_state)
-        os.remove(save_state_path)
+        save_state_path = cwd / Path(save_state)
+        Path(save_state_path).unlink(missing_ok=True)
 
 def delete_from_states_txt():
-    if not os.path.exists(STATES):
+    if not Path(STATES).exists():
         print("Creating a text file to hold save states...")
         with open(STATES, "r") as state_file:
             print(f"{STATES} has been created")

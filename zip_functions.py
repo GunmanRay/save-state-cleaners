@@ -2,20 +2,21 @@ import os
 import zipfile
 import obtain_functions as ob
 import helper_functions as hf
+from pathlib import Path
 
-FILE_PATH = os.path.realpath(__file__)
+FILE_PATH = Path(__file__).resolve().parent
 
 def zip_save_states(cwd, target_directory, scan_subdirs=False):
-    cwd = hf.cwd_none_check(cwd)
+    cwd = Path(hf.cwd_none_check(cwd))
     hf.path_validation(cwd)
 
-    target_directory = hf.cwd_none_check(target_directory)
+    target_directory = Path(hf.cwd_none_check(target_directory))
     hf.path_validation(cwd)
 
     save_states = ob.get_save_states(cwd, scan_subdirs=scan_subdirs)
-    zip_path = os.path.join(target_directory, "save_state_zips.zip")
+    zip_path = target_directory / Path("save_state_zips.zip")
 
     with zipfile.ZipFile(zip_path, "w") as ss_zip:
         for save_state in save_states:
-            full_path = os.path.join(cwd, save_state)
+            full_path = cwd / Path(save_state)
             ss_zip.write(full_path)
