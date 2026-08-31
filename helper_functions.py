@@ -1,4 +1,3 @@
-import os
 from pathlib import Path
 
 SS_CLEANER_PATH = Path(__file__).resolve().parent
@@ -7,12 +6,12 @@ FOLDERS = INFO_FOLDER / "folders.txt"
 STATES = INFO_FOLDER / "save_states.txt"
 
 def path_validation(path):
-    if not os.path.exists(path):
+    if not Path.exists(path):
         raise FileNotFoundError(f"{path} is not recognized as a valid file.")
 
 def input_cwd():
     cwd = input("Input the path of a folder that contains save states: ")
-    return cwd
+    return Path(cwd)
 
 def cwd_none_check(cwd):
     while cwd is None: 
@@ -20,7 +19,7 @@ def cwd_none_check(cwd):
             cwd = input_cwd()
         except FileNotFoundError:
             cwd = None
-    return cwd 
+    return Path(cwd) 
 
 def ask_for_writing_perms(file_list, write_to_states_file):
     valid_ans = {"Y", "N"}

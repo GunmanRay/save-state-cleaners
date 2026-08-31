@@ -1,4 +1,3 @@
-import os
 import zipfile
 import obtain_functions as ob
 import helper_functions as hf
