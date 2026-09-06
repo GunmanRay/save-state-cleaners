@@ -1,7 +1,10 @@
 import zipfile
+import logging
 import obtain_functions as ob
 import helper_functions as hf
 from pathlib import Path
+
+logger = logging.getLogger()
 
 FILE_PATH = Path(__file__).resolve().parent
 
@@ -18,4 +21,5 @@ def zip_save_states(cwd, target_directory, scan_subdirs=False):
     with zipfile.ZipFile(zip_path, "w") as ss_zip:
         for save_state in save_states:
             full_path = cwd / Path(save_state)
+            logger.info("Adding %s into %s.", full_path, zip_path)
             ss_zip.write(full_path)

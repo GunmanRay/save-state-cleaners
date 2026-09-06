@@ -1,12 +1,13 @@
 # Code for handling the deletion of functions and parsing of path links. 
 import os
-import sys
+import logging
 import obtain_functions as ob
 import helper_functions as hf
 from validation_functions import RECOGNIZED_SS_EXTENSIONS
 from helper_functions import STATES, FOLDERS
 from pathlib import Path 
 
+logger = logging.getLogger()
 FILE_PATH = Path(__file__).resolve().parent
 
 def delete_from_cwd(cwd=None, delete_from_subdirs=False):
@@ -16,10 +17,11 @@ def delete_from_cwd(cwd=None, delete_from_subdirs=False):
 
     for save_state in to_delete:
         save_state_path = cwd / Path(save_state)
+        logger.info("Deleting %s", save_state_path)
         Path(save_state_path).unlink(missing_ok=True)
 
 def delete_from_states_txt():
-    if not Path(STATES).exists():
+    if not Path.exists(STATES):
         print("Creating a text file to hold save states...")
         with open(STATES, "r") as state_file:
             print(f"{STATES} has been created")
@@ -29,10 +31,11 @@ def delete_from_states_txt():
             save_states = states.read().splitlines()
             for save_state in save_states:
                 hf.path_validation(save_state)
-                os.remove(save_state)
+                logger.info("Deleting %s", save_state)
+                Path(save_state).unlink(missing_ok=True)
 
 def delete_from_folders_txt(delete_from_subdirs=False):
-    if not os.path.exists(FOLDERS):
+    if not Path.exists(FOLDERS):
         print("Creating a text file to hold save states...")
         with open(FOLDERS, "r") as state_file:
             print(f"{FOLDERS} has been created")
