@@ -7,7 +7,7 @@ from validation_functions import RECOGNIZED_SS_EXTENSIONS
 from helper_functions import STATES, FOLDERS
 from pathlib import Path 
 
-logger = logging.getLogger()
+logger = logging.getLogger(__name__)
 FILE_PATH = Path(__file__).resolve().parent
 
 def delete_from_cwd(cwd=None, delete_from_subdirs=False):
@@ -17,8 +17,12 @@ def delete_from_cwd(cwd=None, delete_from_subdirs=False):
 
     for save_state in to_delete:
         save_state_path = cwd / Path(save_state)
-        logger.info("Deleting %s", save_state_path)
-        Path(save_state_path).unlink(missing_ok=True)
+        logger.debug("Deleting %s", save_state_path)
+        try:
+            Path(save_state_path).unlink(missing_ok=True)
+            logger.info("%s deleted succesfully.", save_state_path)
+        except PermissionError: 
+            logger.warning("%s cannot be deleted, as it is a restriced file", save_state_path)
 
 def delete_from_states_txt():
     if not Path.exists(STATES):
@@ -31,8 +35,12 @@ def delete_from_states_txt():
             save_states = states.read().splitlines()
             for save_state in save_states:
                 hf.path_validation(save_state)
-                logger.info("Deleting %s", save_state)
-                Path(save_state).unlink(missing_ok=True)
+                logger.debug("Deleting %s...", save_state)
+                try:
+                    Path(save_state).unlink(missing_ok=True)
+                    logger.info("%s deleted succesfully.", save_state)
+                except PermissionError: 
+                    logger.warning("%s cannot be deleted, as it is a restriced file", save_state)
 
 def delete_from_folders_txt(delete_from_subdirs=False):
     if not Path.exists(FOLDERS):
