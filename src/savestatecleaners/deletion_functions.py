@@ -1,10 +1,10 @@
 # Code for handling the deletion of functions and parsing of path links. 
 import os
 import logging
-import obtain_functions as ob
-import helper_functions as hf
-from validation_functions import RECOGNIZED_SS_EXTENSIONS
-from helper_functions import STATES, FOLDERS
+from . import obtain_functions as ob
+from . import helper_functions as hf
+from savestatecleaners.validation_functions import RECOGNIZED_SS_EXTENSIONS
+from savestatecleaners.helper_functions import STATES, FOLDERS
 from pathlib import Path 
 
 logger = logging.getLogger(__name__)
