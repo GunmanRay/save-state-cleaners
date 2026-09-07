@@ -2,7 +2,6 @@ import sys
 from pathlib import Path
 import pytest
 
-# Automatically add the project root to sys.path for pytest
 sys.path.insert(0, str(Path(__file__).parent))
 
 LEVEL2_1 = "fake_dir_level2_1"
