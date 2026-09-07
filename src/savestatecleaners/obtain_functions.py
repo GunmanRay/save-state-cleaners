@@ -2,8 +2,9 @@ import os
 import logging
 from . import helper_functions as hf
 from pathlib import Path 
-from . save_files import Emulators
-from savestatecleaners.validation_functions import RECOGNIZED_SS_EXTENSIONS
+from .save_files import Emulators
+
+RECOGNIZED_SS_EXTENSIONS = ["*.ss[0-9]", "*.ds[0-9]"]
 
 logger = logging.getLogger(__name__)
 

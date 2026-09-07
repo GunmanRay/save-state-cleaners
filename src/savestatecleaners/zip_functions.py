@@ -1,7 +1,7 @@
 import zipfile
 import logging
-import savestatecleaners.obtain_functions as ob
-import savestatecleaners.helper_functions as hf
+from . import obtain_functions as ob
+from . import helper_functions as hf
 from pathlib import Path
 
 logger = logging.getLogger()

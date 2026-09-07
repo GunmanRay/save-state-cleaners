@@ -3,7 +3,6 @@ import os
 import logging
 from . import obtain_functions as ob
 from . import helper_functions as hf
-from savestatecleaners.validation_functions import RECOGNIZED_SS_EXTENSIONS
 from savestatecleaners.helper_functions import STATES, FOLDERS
 from pathlib import Path 
 
