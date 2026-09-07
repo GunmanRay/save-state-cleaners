@@ -1,8 +1,11 @@
 import os
+import logging
 import helper_functions as hf
 from pathlib import Path 
 from save_files import Emulators
 from validation_functions import RECOGNIZED_SS_EXTENSIONS
+
+logger = logging.getLogger(__name__)
 
 def get_save_states(cwd=None, scan_subdirs=False):
     """Returns a list of all the save states found in the cwd.
@@ -13,16 +16,17 @@ def get_save_states(cwd=None, scan_subdirs=False):
 
     os.chdir(cwd)
     save_states = []
-
+    logger.debug("Scanning for save states...")
     # O(n^2), should be faster...
     for extension in RECOGNIZED_SS_EXTENSIONS:
         if scan_subdirs:
             extension = Path("**") / Path(extension)
         matches = Path(cwd).glob(pattern=extension, recurse_symlinks=scan_subdirs)
+        logger.info("Found save states: %s", matches)
         save_states += matches
 
-    if save_states: print(save_states)
-    else: print("There are no save states in the given directory.")
+    if save_states: logger.info("Obtained files: %s", save_states)
+    else: logger.info("There are no save states in the given directory.")
     return list(save_states)
         
 def get_specific_save_states(emulator, cwd=None, use_recursion=False):
@@ -44,11 +48,11 @@ def get_specific_save_states(emulator, cwd=None, use_recursion=False):
 
     if use_recursion:
         extension = Path("**") / extension
-
+    logger.debug("Scanning for save states...")
     save_states = Path(cwd).glob(pattern=extension)
 
-    if save_states: print(save_states)
-    else: print("There are no save states in the given directory.")
+    if save_states: logger.info("Obtained files: %s", save_states)
+    else: logger.info("There are no save states in the given directory.")
 
     return list(save_states)
 

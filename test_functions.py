@@ -326,5 +326,6 @@ class TestDeletionFunctions:
         delete.delete_from_cwd(temp_save_dir, delete_from_subdirs=True)
         assert len(ob.get_save_states(temp_save_dir, scan_subdirs=True)) == 0
 
+
 if __name__ == '__main__':
     pytest.main()
